@@ -14,7 +14,7 @@ export function GiftForm() {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <label className="label-field">Título</label>
-          <input name="title" required className="input-field" placeholder="Ex: Bolsa que ela viu na loja" />
+          <input name="title" className="input-field" placeholder="Ex: Bolsa que ela viu na loja" />
         </div>
         <div>
           <label className="label-field">Preço estimado (R$)</label>

@@ -7,7 +7,7 @@ import type { FormState } from "@/app/actions/auth";
 import { GIFT_PRIORITIES, GIFT_STATUSES } from "@/lib/types";
 
 const schema = z.object({
-  title: z.string().trim().min(1).max(150),
+  title: z.string().trim().max(150).optional().or(z.literal("")),
   description: z.string().trim().max(1000).optional().or(z.literal("")),
   price_estimate: z.string().optional().or(z.literal("")),
   link: z.string().trim().max(500).optional().or(z.literal("")),
@@ -31,11 +31,11 @@ export async function createGiftAction(_prevState: FormState | undefined, formDa
     priority: formData.get("priority") || "media",
     status: formData.get("status") || "ideia",
   });
-  if (!parsed.success) return { error: "Preencha ao menos o título da ideia de presente." };
+  if (!parsed.success) return { error: "Erro ao processar a ideia de presente." };
 
   const supabase = supabaseAdmin();
   const { error } = await supabase.from("gift_ideas").insert({
-    title: parsed.data.title,
+    title: parsed.data.title || null,
     description: parsed.data.description || null,
     price_estimate: parsePrice(parsed.data.price_estimate),
     link: parsed.data.link || null,
@@ -78,7 +78,7 @@ export async function updateGiftAction(formData: FormData) {
   await supabase
     .from("gift_ideas")
     .update({
-      title: parsed.data.title,
+      title: parsed.data.title || null,
       description: parsed.data.description || null,
       price_estimate: parsePrice(parsed.data.price_estimate),
       link: parsed.data.link || null,
