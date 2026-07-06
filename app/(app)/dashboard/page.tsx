@@ -77,9 +77,9 @@ export default async function DashboardPage() {
         />
         <DashboardCard
           href="/galeria"
-          emoji="🖼️"
-          title="Galeria de Fotos"
-          description="Fotos nossas, dela e dos nossos momentos."
+          emoji="🎬"
+          title="Galeria"
+          description="Fotos e vídeos nossas, dela e dos nossos momentos."
         />
         <DashboardCard
           href="/memorias"

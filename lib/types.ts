@@ -71,6 +71,7 @@ export interface Photo {
   is_favorite: boolean;
   is_private: boolean;
   taken_at: string | null;
+  media_type?: "image" | "video";
   created_at: string;
 }
 

@@ -2,6 +2,7 @@ import { CategoryTabs } from "@/components/CategoryTabs";
 import { PageHeader } from "@/components/PageHeader";
 import { PhotoGallery, type GalleryPhoto } from "@/components/PhotoGallery";
 import { PhotoUploadForm } from "@/components/PhotoUploadForm";
+import { VideoUploadForm } from "@/components/VideoUploadForm";
 import { listPhotos } from "@/lib/queries";
 import { getSignedUrls } from "@/lib/storage";
 import { PHOTO_CATEGORIES } from "@/lib/types";
@@ -33,14 +34,16 @@ export default async function GaleriaPage({
     is_favorite: p.is_favorite,
     is_private: p.is_private,
     url: urlMap[p.storage_path] ?? null,
+    media_type: p.media_type || "image",
   }));
 
   return (
     <div>
-      <PageHeader title="Galeria de Fotos" subtitle="Fotos dela, nossas e de momentos especiais, organizadas por categoria." />
+      <PageHeader title="Galeria de Fotos e Vídeos" subtitle="Fotos e vídeos dela, nossos e de momentos especiais, organizados por categoria." />
 
-      <div className="mb-8">
+      <div className="mb-8 space-y-6">
         <PhotoUploadForm />
+        <VideoUploadForm />
       </div>
 
       <CategoryTabs basePath="/galeria" categories={PHOTO_CATEGORIES} active={searchParams.category} counts={counts} />

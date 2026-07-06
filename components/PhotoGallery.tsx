@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { deletePhotoAction, toggleFavoritePhotoAction, togglePrivatePhotoAction } from "@/app/actions/photos";
+import { deleteVideoAction, toggleFavoriteVideoAction, togglePrivateVideoAction } from "@/app/actions/videos";
 
 export interface GalleryPhoto {
   id: string;
@@ -11,79 +12,99 @@ export interface GalleryPhoto {
   is_favorite: boolean;
   is_private: boolean;
   url: string | null;
+  media_type?: "image" | "video";
 }
 
 export function PhotoGallery({ photos, showPrivateToggle = false }: { photos: GalleryPhoto[]; showPrivateToggle?: boolean }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const current = useMemo(() => (openIndex !== null ? photos[openIndex] : null), [openIndex, photos]);
+  const isVideo = current?.media_type === "video";
+  const toggleFavoriteAction = isVideo ? toggleFavoriteVideoAction : toggleFavoritePhotoAction;
+  const deleteAction = isVideo ? deleteVideoAction : deletePhotoAction;
+  const togglePrivateAction = isVideo ? togglePrivateVideoAction : togglePrivatePhotoAction;
 
   function stop(e: React.SyntheticEvent) {
     e.stopPropagation();
   }
 
   if (photos.length === 0) {
-    return <p className="text-sm text-wine-400 dark:text-blush-200/60">Nenhuma foto encontrada nesta categoria.</p>;
+    return <p className="text-sm text-wine-400 dark:text-blush-200/60">Nenhuma mídia encontrada nesta categoria.</p>;
   }
 
   return (
     <>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-        {photos.map((photo, index) => (
-          <div
-            key={photo.id}
-            onClick={() => setOpenIndex(index)}
-            className="group relative aspect-square cursor-pointer overflow-hidden rounded-xl bg-blush-100 shadow-card dark:bg-wine-800"
-          >
-            {photo.url ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={photo.url} alt={photo.title ?? "Foto"} className="h-full w-full object-cover transition group-hover:scale-105" />
-            ) : (
-              <div className="flex h-full w-full items-center justify-center text-wine-300">sem imagem</div>
-            )}
+        {photos.map((photo, index) => {
+          const isItemVideo = photo.media_type === "video";
+          const toggleAction = isItemVideo ? toggleFavoriteVideoAction : toggleFavoritePhotoAction;
+          const deleteItemAction = isItemVideo ? deleteVideoAction : deletePhotoAction;
 
-            {photo.is_favorite && (
-              <span className="absolute left-2 top-2 rounded-full bg-white/90 px-1.5 py-0.5 text-xs text-blush-500 shadow">★</span>
-            )}
-            {photo.is_private && (
-              <span className="absolute left-2 bottom-2 rounded-full bg-wine-800/90 px-1.5 py-0.5 text-[10px] font-medium text-blush-50 shadow">
-                privada
-              </span>
-            )}
-
+          return (
             <div
-              onClick={stop}
-              className="absolute right-2 top-2 flex gap-1 opacity-0 transition group-hover:opacity-100"
+              key={photo.id}
+              onClick={() => setOpenIndex(index)}
+              className="group relative aspect-square cursor-pointer overflow-hidden rounded-xl bg-blush-100 shadow-card dark:bg-wine-800"
             >
-              <form action={toggleFavoritePhotoAction}>
-                <input type="hidden" name="id" value={photo.id} />
-                <input type="hidden" name="current" value={String(photo.is_favorite)} />
-                <button
-                  type="submit"
-                  title="Favoritar"
-                  className="flex h-7 w-7 items-center justify-center rounded-full bg-white/90 text-sm text-wine-600 shadow hover:bg-white"
-                >
-                  ★
-                </button>
-              </form>
-              <form
-                action={deletePhotoAction}
-                onSubmit={(e) => {
-                  if (!confirm("Excluir esta foto?")) e.preventDefault();
-                }}
+              {photo.url ? (
+                isItemVideo ? (
+                  <>
+                    <video src={photo.url} className="h-full w-full object-cover transition group-hover:scale-105" />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition">
+                      <span className="text-white text-2xl">▶</span>
+                    </div>
+                  </>
+                ) : (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={photo.url} alt={photo.title ?? "Foto"} className="h-full w-full object-cover transition group-hover:scale-105" />
+                )
+              ) : (
+                <div className="flex h-full w-full items-center justify-center text-wine-300">sem mídia</div>
+              )}
+
+              {photo.is_favorite && (
+                <span className="absolute left-2 top-2 rounded-full bg-white/90 px-1.5 py-0.5 text-xs text-blush-500 shadow">★</span>
+              )}
+              {photo.is_private && (
+                <span className="absolute left-2 bottom-2 rounded-full bg-wine-800/90 px-1.5 py-0.5 text-[10px] font-medium text-blush-50 shadow">
+                  privada
+                </span>
+              )}
+
+              <div
+                onClick={stop}
+                className="absolute right-2 top-2 flex gap-1 opacity-0 transition group-hover:opacity-100"
               >
-                <input type="hidden" name="id" value={photo.id} />
-                <button
-                  type="submit"
-                  title="Excluir"
-                  className="flex h-7 w-7 items-center justify-center rounded-full bg-white/90 text-sm text-red-600 shadow hover:bg-white"
+                <form action={toggleAction}>
+                  <input type="hidden" name="id" value={photo.id} />
+                  <input type="hidden" name="current" value={String(photo.is_favorite)} />
+                  <button
+                    type="submit"
+                    title="Favoritar"
+                    className="flex h-7 w-7 items-center justify-center rounded-full bg-white/90 text-sm text-wine-600 shadow hover:bg-white"
+                  >
+                    ★
+                  </button>
+                </form>
+                <form
+                  action={deleteItemAction}
+                  onSubmit={(e) => {
+                    if (!confirm("Excluir esta mídia?")) e.preventDefault();
+                  }}
                 >
-                  ✕
-                </button>
-              </form>
+                  <input type="hidden" name="id" value={photo.id} />
+                  <button
+                    type="submit"
+                    title="Excluir"
+                    className="flex h-7 w-7 items-center justify-center rounded-full bg-white/90 text-sm text-red-600 shadow hover:bg-white"
+                  >
+                    ✕
+                  </button>
+                </form>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {current && (
@@ -124,8 +145,16 @@ export function PhotoGallery({ photos, showPrivateToggle = false }: { photos: Ga
 
           <div onClick={stop} className="max-h-[85vh] max-w-3xl overflow-hidden rounded-2xl bg-white dark:bg-wine-900">
             {current.url && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={current.url} alt={current.title ?? "Foto"} className="max-h-[65vh] w-full object-contain bg-black" />
+              isVideo ? (
+                <video
+                  src={current.url}
+                  controls
+                  className="max-h-[65vh] w-full object-contain bg-black"
+                />
+              ) : (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={current.url} alt={current.title ?? "Foto"} className="max-h-[65vh] w-full object-contain bg-black" />
+              )
             )}
             <div className="p-4">
               <div className="flex items-start justify-between gap-3">
@@ -136,7 +165,7 @@ export function PhotoGallery({ photos, showPrivateToggle = false }: { photos: Ga
                   <p className="text-xs uppercase tracking-wide text-wine-400 dark:text-blush-200/70">{current.category}</p>
                 </div>
                 <div className="flex gap-2">
-                  <form action={toggleFavoritePhotoAction}>
+                  <form action={toggleFavoriteAction}>
                     <input type="hidden" name="id" value={current.id} />
                     <input type="hidden" name="current" value={String(current.is_favorite)} />
                     <button type="submit" className="btn-secondary !px-3 !py-1 text-xs">
@@ -144,7 +173,7 @@ export function PhotoGallery({ photos, showPrivateToggle = false }: { photos: Ga
                     </button>
                   </form>
                   {showPrivateToggle && (
-                    <form action={togglePrivatePhotoAction}>
+                    <form action={togglePrivateAction}>
                       <input type="hidden" name="id" value={current.id} />
                       <input type="hidden" name="current" value={String(current.is_private)} />
                       <button type="submit" className="btn-secondary !px-3 !py-1 text-xs">
