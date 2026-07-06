@@ -21,7 +21,7 @@ export default async function DashboardPage() {
           Bem-vindo de volta
         </p>
         <h1 className="font-display text-3xl font-semibold text-wine-800 dark:text-blush-50 sm:text-4xl">
-          {displayName ? `Tudo sobre ${displayName} ♥` : "Memórias Especiais ♥"}
+          {displayName ? `Tudo sobre ${displayName} ♥` : "Nossos Momentos ♥"}
         </h1>
         {profile?.special_phrase && (
           <p className="mt-2 max-w-xl text-sm italic text-wine-500 dark:text-blush-200">
@@ -79,13 +79,13 @@ export default async function DashboardPage() {
           href="/galeria"
           emoji="🖼️"
           title="Galeria de Fotos"
-          description="Fotos e momentos especiais guardados."
+          description="Fotos nossas, dela e dos nossos momentos."
         />
         <DashboardCard
           href="/memorias"
           emoji="📖"
-          title="Lembranças Especiais"
-          description="Histórias e momentos que você quer guardar."
+          title="Nossas Memórias"
+          description="Histórias e momentos nossos guardados."
         />
         <DashboardCard
           href="/presentes"

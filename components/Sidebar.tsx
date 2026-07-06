@@ -116,7 +116,7 @@ export function Sidebar() {
     <>
       <header className="flex items-center justify-between border-b border-blush-100/70 bg-white/70 px-4 py-3 backdrop-blur-sm dark:border-wine-700/50 dark:bg-wine-800/70 md:hidden">
         <Link href="/dashboard" className="font-display text-lg font-semibold text-wine-700 dark:text-blush-50">
-          ♥ Especial
+          ♥ Nossos Momentos
         </Link>
         <button
           type="button"
@@ -141,7 +141,7 @@ export function Sidebar() {
       >
         <div className="mb-6 flex items-center justify-between">
           <Link href="/dashboard" className="font-display text-xl font-semibold text-wine-700 dark:text-blush-50">
-            ♥ Especial
+            ♥ Nossos Momentos
           </Link>
           <button
             type="button"

@@ -11,8 +11,8 @@ const display = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Memórias Especiais",
-  description: "Um espaço privado para guardar informações, fotos e lembranças de alguém especial.",
+  title: "Nossos Momentos",
+  description: "Um espaço privado para guardar informações, fotos e lembranças dos nossos momentos juntos.",
   robots: {
     index: false,
     follow: false,
