@@ -28,7 +28,7 @@ export function PhotoUploadForm() {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <label className="label-field">Categoria</label>
-          <select name="category" defaultValue="geral" className="input-field">
+          <select name="category" defaultValue="Nós Juntos" className="input-field">
             {PHOTO_CATEGORIES.map((c) => (
               <option key={c} value={c}>
                 {c}
