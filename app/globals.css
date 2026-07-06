@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-blush-50 text-wine-900 dark:bg-wine-900 dark:text-blush-50;
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(225, 112, 156, 0.12), transparent 40%),
+    radial-gradient(circle at 85% 0%, rgba(131, 49, 65, 0.1), transparent 45%);
+  background-attachment: fixed;
+}
+
+::selection {
+  @apply bg-blush-300 text-wine-900;
+}
+
+.card-surface {
+  @apply rounded-2xl border border-blush-100/70 bg-white/80 shadow-card backdrop-blur-sm dark:border-wine-700/50 dark:bg-wine-800/60;
+}
+
+.btn-primary {
+  @apply inline-flex items-center justify-center gap-2 rounded-full bg-wine-600 px-5 py-2.5 text-sm font-medium text-white shadow-soft transition hover:bg-wine-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60;
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center gap-2 rounded-full border border-wine-200 bg-white px-5 py-2.5 text-sm font-medium text-wine-700 transition hover:bg-blush-50 active:scale-95 dark:border-wine-600 dark:bg-transparent dark:text-blush-100 dark:hover:bg-wine-700/50;
+}
+
+.btn-danger {
+  @apply inline-flex items-center justify-center gap-2 rounded-full border border-red-200 bg-red-50 px-4 py-2 text-sm font-medium text-red-700 transition hover:bg-red-100;
+}
+
+.input-field {
+  @apply w-full rounded-xl border border-blush-200 bg-white/90 px-4 py-2.5 text-sm text-wine-900 shadow-sm outline-none transition placeholder:text-wine-300 focus:border-wine-400 focus:ring-2 focus:ring-wine-200 dark:border-wine-600 dark:bg-wine-800/60 dark:text-blush-50 dark:placeholder:text-blush-200/40;
+}
+
+.label-field {
+  @apply mb-1 block text-xs font-semibold uppercase tracking-wide text-wine-500 dark:text-blush-200;
+}
