@@ -25,21 +25,9 @@ export function PhotoUploadForm() {
         <p className="mt-1 text-xs text-wine-400 dark:text-blush-200/60">JPEG, PNG ou WebP, até 8MB cada. Selecione múltiplas imagens.</p>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div>
-          <label className="label-field">Categoria</label>
-          <select name="category" defaultValue="Nós Juntos" className="input-field">
-            {PHOTO_CATEGORIES.map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label className="label-field">Data das fotos</label>
-          <input type="date" name="taken_at" className="input-field" />
-        </div>
+      <div>
+        <label className="label-field">Data das fotos (opcional)</label>
+        <input type="date" name="taken_at" className="input-field" />
       </div>
 
       <label className="flex items-center gap-2 text-sm text-wine-600 dark:text-blush-200">

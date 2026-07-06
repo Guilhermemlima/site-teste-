@@ -9,7 +9,6 @@ import type { FormState } from "@/app/actions/auth";
 const schema = z.object({
   title: z.string().trim().max(150).optional().or(z.literal("")),
   description: z.string().trim().max(1000).optional().or(z.literal("")),
-  category: z.string().trim().min(1),
   taken_at: z.string().optional().or(z.literal("")),
   is_private: z.string().optional(),
 });
@@ -18,11 +17,10 @@ export async function createPhotoAction(_prevState: FormState | undefined, formD
   const parsed = schema.safeParse({
     title: formData.get("title"),
     description: formData.get("description"),
-    category: formData.get("category"),
     taken_at: formData.get("taken_at"),
     is_private: formData.get("is_private"),
   });
-  if (!parsed.success) return { error: "Selecione uma categoria válida." };
+  if (!parsed.success) return { error: "Erro ao processar o formulário." };
 
   const files = formData.getAll("photos").filter((f): f is File => f instanceof File && f.size > 0);
   if (files.length === 0) {
@@ -46,7 +44,7 @@ export async function createPhotoAction(_prevState: FormState | undefined, formD
     const { error } = await supabase.from("photos").insert({
       title: null,
       description: parsed.data.description || null,
-      category: parsed.data.category,
+      category: "Nós Juntos",
       taken_at: parsed.data.taken_at || null,
       is_private: parsed.data.is_private === "on",
       storage_path: path,
