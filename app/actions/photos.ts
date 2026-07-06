@@ -24,34 +24,49 @@ export async function createPhotoAction(_prevState: FormState | undefined, formD
   });
   if (!parsed.success) return { error: "Selecione uma categoria válida." };
 
-  const file = formData.get("photo");
-  if (!(file instanceof File) || file.size === 0) {
-    return { error: "Selecione uma imagem para enviar." };
-  }
-
-  let path: string;
-  try {
-    path = await uploadImage(file, "galeria");
-  } catch (err) {
-    if (err instanceof UploadValidationError) return { error: err.message };
-    return { error: "Não foi possível enviar a imagem." };
+  const files = formData.getAll("photos").filter((f): f is File => f instanceof File && f.size > 0);
+  if (files.length === 0) {
+    return { error: "Selecione ao menos uma imagem para enviar." };
   }
 
   const supabase = supabaseAdmin();
-  const { error } = await supabase.from("photos").insert({
-    title: parsed.data.title || null,
-    description: parsed.data.description || null,
-    category: parsed.data.category,
-    taken_at: parsed.data.taken_at || null,
-    is_private: parsed.data.is_private === "on",
-    storage_path: path,
-  });
+  let uploadCount = 0;
+  let lastError: string | null = null;
 
-  if (error) return { error: `Erro ao salvar foto: ${error.message}` };
+  for (const file of files) {
+    let path: string;
+    try {
+      path = await uploadImage(file, "galeria");
+    } catch (err) {
+      if (err instanceof UploadValidationError) lastError = err.message;
+      else lastError = "Não foi possível enviar uma das imagens.";
+      continue;
+    }
+
+    const { error } = await supabase.from("photos").insert({
+      title: null,
+      description: parsed.data.description || null,
+      category: parsed.data.category,
+      taken_at: parsed.data.taken_at || null,
+      is_private: parsed.data.is_private === "on",
+      storage_path: path,
+    });
+
+    if (error) {
+      lastError = `Erro ao salvar foto: ${error.message}`;
+    } else {
+      uploadCount++;
+    }
+  }
 
   revalidatePath("/galeria");
   revalidatePath("/privado/conteudo");
-  return { success: "Foto adicionada com sucesso." };
+
+  if (uploadCount === 0) return { error: lastError || "Erro ao enviar fotos." };
+  if (uploadCount === files.length) {
+    return { success: `${uploadCount} ${uploadCount === 1 ? "foto adicionada" : "fotos adicionadas"} com sucesso.` };
+  }
+  return { success: `${uploadCount} de ${files.length} fotos adicionadas. ${lastError}` };
 }
 
 export async function deletePhotoAction(formData: FormData) {
