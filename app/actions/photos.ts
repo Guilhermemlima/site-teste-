@@ -6,22 +6,7 @@ import { supabaseAdmin } from "@/lib/supabase-server";
 import { deleteImage, uploadImage, UploadValidationError } from "@/lib/storage";
 import type { FormState } from "@/app/actions/auth";
 
-const schema = z.object({
-  title: z.string().trim().max(150).optional().or(z.literal("")),
-  description: z.string().trim().max(1000).optional().or(z.literal("")),
-  taken_at: z.string().optional().or(z.literal("")),
-  is_private: z.string().optional(),
-});
-
 export async function createPhotoAction(_prevState: FormState | undefined, formData: FormData): Promise<FormState> {
-  const parsed = schema.safeParse({
-    title: formData.get("title"),
-    description: formData.get("description"),
-    taken_at: formData.get("taken_at"),
-    is_private: formData.get("is_private"),
-  });
-  if (!parsed.success) return { error: "Erro ao processar o formulário." };
-
   const files = formData.getAll("photos").filter((f): f is File => f instanceof File && f.size > 0);
   if (files.length === 0) {
     return { error: "Selecione ao menos uma imagem para enviar." };
@@ -43,10 +28,10 @@ export async function createPhotoAction(_prevState: FormState | undefined, formD
 
     const { error } = await supabase.from("photos").insert({
       title: null,
-      description: parsed.data.description || null,
+      description: null,
       category: "Nós Juntos",
-      taken_at: parsed.data.taken_at || null,
-      is_private: parsed.data.is_private === "on",
+      taken_at: null,
+      is_private: false,
       storage_path: path,
     });
 
