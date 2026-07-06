@@ -3,6 +3,8 @@ import { PreferenceCategorySection } from "@/components/PreferenceCategorySectio
 import { listPreferences } from "@/lib/queries";
 import { PREFERENCE_CATEGORIES } from "@/lib/types";
 
+export const dynamic = "force-dynamic";
+
 export default async function PreferenciasPage() {
   const preferences = await listPreferences();
 

@@ -2,6 +2,8 @@ import { DashboardCard } from "@/components/DashboardCard";
 import { countdownLabel, daysUntilNextOccurrence, formatDatePtBR } from "@/lib/dates";
 import { getProfile, listImportantDates } from "@/lib/queries";
 
+export const dynamic = "force-dynamic";
+
 export default async function DashboardPage() {
   const [profile, dates] = await Promise.all([getProfile(), listImportantDates()]);
 

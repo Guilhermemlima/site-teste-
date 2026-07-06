@@ -5,6 +5,8 @@ import { daysUntilNextOccurrence } from "@/lib/dates";
 import { listImportantDates } from "@/lib/queries";
 import { getSignedUrls } from "@/lib/storage";
 
+export const dynamic = "force-dynamic";
+
 export default async function DatasPage() {
   const dates = await listImportantDates();
   const sorted = [...dates].sort((a, b) => daysUntilNextOccurrence(a.date) - daysUntilNextOccurrence(b.date));

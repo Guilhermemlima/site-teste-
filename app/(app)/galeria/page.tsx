@@ -6,6 +6,8 @@ import { listPhotos } from "@/lib/queries";
 import { getSignedUrls } from "@/lib/storage";
 import { PHOTO_CATEGORIES } from "@/lib/types";
 
+export const dynamic = "force-dynamic";
+
 export default async function GaleriaPage({
   searchParams,
 }: {

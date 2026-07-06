@@ -3,6 +3,8 @@ import { GiftForm } from "@/components/GiftForm";
 import { PageHeader } from "@/components/PageHeader";
 import { listGifts } from "@/lib/queries";
 
+export const dynamic = "force-dynamic";
+
 export default async function PresentesPage() {
   const gifts = await listGifts();
 

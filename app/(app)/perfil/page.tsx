@@ -5,6 +5,8 @@ import { getSignedUrl } from "@/lib/storage";
 import { getProfile } from "@/lib/queries";
 import { getZodiacSign } from "@/lib/zodiac";
 
+export const dynamic = "force-dynamic";
+
 export default async function PerfilPage() {
   const profile = await getProfile();
   const photoUrl = await getSignedUrl(profile?.main_photo_url);

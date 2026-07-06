@@ -6,6 +6,8 @@ import { PhotoGallery, type GalleryPhoto } from "@/components/PhotoGallery";
 import { isPrivateAreaUnlocked, listMemories, listPhotos } from "@/lib/queries";
 import { getSignedUrls } from "@/lib/storage";
 
+export const dynamic = "force-dynamic";
+
 export default async function PrivadoConteudoPage() {
   // Checagem redundante no servidor, além do middleware, por seguranca.
   const unlocked = await isPrivateAreaUnlocked();

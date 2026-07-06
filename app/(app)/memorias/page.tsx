@@ -6,6 +6,8 @@ import { listMemories } from "@/lib/queries";
 import { getSignedUrls } from "@/lib/storage";
 import { MEMORY_CATEGORIES } from "@/lib/types";
 
+export const dynamic = "force-dynamic";
+
 export default async function MemoriasPage({ searchParams }: { searchParams: { category?: string } }) {
   const memories = await listMemories({ includePrivate: false });
   const allPaths = memories.flatMap((m) => m.image_paths || []);
