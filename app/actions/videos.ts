@@ -6,24 +6,25 @@ import { deleteImage, uploadVideo, UploadValidationError } from "@/lib/storage";
 import type { FormState } from "@/app/actions/auth";
 
 export async function createVideoAction(_prevState: FormState | undefined, formData: FormData): Promise<FormState> {
-  const files = formData.getAll("videos").filter((f): f is File => f instanceof File && f.size > 0);
-  if (files.length === 0) {
-    return { error: "Selecione ao menos um vídeo para enviar." };
-  }
-
-  const supabase = supabaseAdmin();
-  let uploadCount = 0;
-  let lastError: string | null = null;
-
-  for (const file of files) {
-    let path: string;
-    try {
-      path = await uploadVideo(file, "videos");
-    } catch (err) {
-      if (err instanceof UploadValidationError) lastError = err.message;
-      else lastError = "Não foi possível enviar um dos vídeos.";
-      continue;
+  try {
+    const files = formData.getAll("videos").filter((f): f is File => f instanceof File && f.size > 0);
+    if (files.length === 0) {
+      return { error: "Selecione ao menos um vídeo para enviar." };
     }
+
+    const supabase = supabaseAdmin();
+    let uploadCount = 0;
+    let lastError: string | null = null;
+
+    for (const file of files) {
+      let path: string;
+      try {
+        path = await uploadVideo(file, "videos");
+      } catch (err) {
+        if (err instanceof UploadValidationError) lastError = err.message;
+        else lastError = "Não foi possível enviar um dos vídeos.";
+        continue;
+      }
 
     const { error } = await supabase.from("photos").insert({
       title: null,
@@ -42,14 +43,18 @@ export async function createVideoAction(_prevState: FormState | undefined, formD
     }
   }
 
-  revalidatePath("/galeria");
-  revalidatePath("/privado/conteudo");
+    revalidatePath("/galeria");
+    revalidatePath("/privado/conteudo");
 
-  if (uploadCount === 0) return { error: lastError || "Erro ao enviar vídeos." };
-  if (uploadCount === files.length) {
-    return { success: `${uploadCount} ${uploadCount === 1 ? "vídeo adicionado" : "vídeos adicionados"} com sucesso.` };
+    if (uploadCount === 0) return { error: lastError || "Erro ao enviar vídeos." };
+    if (uploadCount === files.length) {
+      return { success: `${uploadCount} ${uploadCount === 1 ? "vídeo adicionado" : "vídeos adicionados"} com sucesso.` };
+    }
+    return { success: `${uploadCount} de ${files.length} vídeos adicionados. ${lastError}` };
+  } catch (err) {
+    console.error("Video upload error:", err);
+    return { error: "Erro ao processar upload de vídeos." };
   }
-  return { success: `${uploadCount} de ${files.length} vídeos adicionados. ${lastError}` };
 }
 
 export async function deleteVideoAction(formData: FormData) {

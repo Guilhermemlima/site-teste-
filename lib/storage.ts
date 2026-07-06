@@ -56,13 +56,18 @@ export async function uploadImage(file: File, folder: string): Promise<string> {
   const path = `${folder}/${randomUUID()}.${extensionFor(file.type)}`;
   const arrayBuffer = await file.arrayBuffer();
 
-  const { error } = await supabase.storage.from(STORAGE_BUCKET).upload(path, arrayBuffer, {
-    contentType: file.type,
-    upsert: false,
-  });
+  try {
+    const { error } = await supabase.storage.from(STORAGE_BUCKET).upload(path, arrayBuffer, {
+      contentType: file.type,
+      upsert: false,
+    });
 
-  if (error) {
-    throw new Error(`Falha ao enviar imagem: ${error.message}`);
+    if (error) {
+      throw new Error(`Falha ao enviar imagem: ${error.message}`);
+    }
+  } catch (err) {
+    console.error("Upload error:", err);
+    throw err;
   }
 
   return path;
