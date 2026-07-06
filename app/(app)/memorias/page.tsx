@@ -22,7 +22,7 @@ export default async function MemoriasPage({ searchParams }: { searchParams: { c
 
   return (
     <div>
-      <PageHeader title="Nossas Memórias" subtitle="Histórias e momentos que a gente quer guardar para sempre." />
+      <PageHeader title="Lembranças Especiais" subtitle="Histórias e momentos importantes que você quer guardar." />
 
       <div className="mb-8">
         <MemoryForm />

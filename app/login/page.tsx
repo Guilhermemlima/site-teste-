@@ -23,10 +23,10 @@ export default function LoginPage() {
               ♥
             </p>
             <h1 className="font-display text-2xl font-semibold text-wine-800 dark:text-blush-50">
-              Memórias do Casal
+              Memórias Especiais
             </h1>
             <p className="mt-2 text-sm text-wine-500 dark:text-blush-200">
-              Um espaço só nosso, guardado com carinho.
+              Um espaço para guardar o que é importante.
             </p>
           </div>
 

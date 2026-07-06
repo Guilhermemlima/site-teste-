@@ -18,10 +18,10 @@ export default async function DashboardPage() {
     <div>
       <div className="mb-8">
         <p className="text-sm font-medium uppercase tracking-wide text-wine-400 dark:text-blush-200/70">
-          Que bom te ver por aqui
+          Bem-vindo de volta
         </p>
         <h1 className="font-display text-3xl font-semibold text-wine-800 dark:text-blush-50 sm:text-4xl">
-          {displayName ? `Tudo sobre ${displayName} ♥` : "Memórias do Casal ♥"}
+          {displayName ? `Tudo sobre ${displayName} ♥` : "Memórias Especiais ♥"}
         </h1>
         {profile?.special_phrase && (
           <p className="mt-2 max-w-xl text-sm italic text-wine-500 dark:text-blush-200">
@@ -61,7 +61,7 @@ export default async function DashboardPage() {
           href="/perfil"
           emoji="👤"
           title="Perfil"
-          description="Nome, apelido, aniversário e tudo sobre ela."
+          description="Nome, apelido, aniversário e informações pessoais."
         />
         <DashboardCard
           href="/preferencias"
@@ -73,25 +73,25 @@ export default async function DashboardPage() {
           href="/datas"
           emoji="📅"
           title="Datas Importantes"
-          description="Aniversários, datas de namoro e contagens regressivas."
+          description="Aniversários, datas especiais e contagens regressivas."
         />
         <DashboardCard
           href="/galeria"
           emoji="🖼️"
           title="Galeria de Fotos"
-          description="Fotos dela, nossas e de momentos especiais."
+          description="Fotos e momentos especiais guardados."
         />
         <DashboardCard
           href="/memorias"
           emoji="📖"
-          title="Nossas Memórias"
-          description="Histórias e lembranças que queremos guardar."
+          title="Lembranças Especiais"
+          description="Histórias e momentos que você quer guardar."
         />
         <DashboardCard
           href="/presentes"
           emoji="🎁"
           title="Ideias de Presentes"
-          description="O que ela gostaria de ganhar, com prioridades."
+          description="Ideias de presentes com prioridades e status."
         />
         <DashboardCard
           href="/privado"

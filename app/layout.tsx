@@ -11,8 +11,8 @@ const display = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Memórias do Casal",
-  description: "Um espaço privado para guardar carinho, lembranças e planos a dois.",
+  title: "Memórias Especiais",
+  description: "Um espaço privado para guardar informações, fotos e lembranças de alguém especial.",
   robots: {
     index: false,
     follow: false,

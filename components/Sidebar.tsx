@@ -11,10 +11,10 @@ const NAV_ITEMS = [
   { href: "/perfil", label: "Perfil", icon: "user" },
   { href: "/preferencias", label: "Preferências", icon: "heart" },
   { href: "/datas", label: "Datas Importantes", icon: "calendar" },
-  { href: "/galeria", label: "Galeria de Fotos", icon: "image" },
-  { href: "/memorias", label: "Nossas Memórias", icon: "book" },
-  { href: "/presentes", label: "Ideias de Presentes", icon: "gift" },
-  { href: "/privado", label: "Área Privada", icon: "lock" },
+  { href: "/galeria", label: "Galeria", icon: "image" },
+  { href: "/memorias", label: "Lembranças", icon: "book" },
+  { href: "/presentes", label: "Presentes", icon: "gift" },
+  { href: "/privado", label: "Privado", icon: "lock" },
   { href: "/configuracoes", label: "Configurações", icon: "settings" },
 ] as const;
 
@@ -116,7 +116,7 @@ export function Sidebar() {
     <>
       <header className="flex items-center justify-between border-b border-blush-100/70 bg-white/70 px-4 py-3 backdrop-blur-sm dark:border-wine-700/50 dark:bg-wine-800/70 md:hidden">
         <Link href="/dashboard" className="font-display text-lg font-semibold text-wine-700 dark:text-blush-50">
-          ♥ Memórias
+          ♥ Especial
         </Link>
         <button
           type="button"
@@ -141,7 +141,7 @@ export function Sidebar() {
       >
         <div className="mb-6 flex items-center justify-between">
           <Link href="/dashboard" className="font-display text-xl font-semibold text-wine-700 dark:text-blush-50">
-            ♥ Memórias
+            ♥ Especial
           </Link>
           <button
             type="button"
